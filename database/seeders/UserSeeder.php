@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $id = 1;
 
         DB::table('users')->insert([
-            'u_id' => $id,
+            'id' => $id,
             'u_name' => 'Maxim',
             'u_surname' => 'Solod',
             'u_email' => 'test@i.ua',
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
 
         for($i = 0; $i < $usersToCreate; $i++) {
             DB::table('users')->insert([
-                'u_id' => $id,
+                'id' => $id,
                 'u_name' => Str::random(10),
                 'u_surname' => Str::random(10),
                 'u_email' => Str::random(10).'@gmail.com',

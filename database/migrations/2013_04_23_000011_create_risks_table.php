@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('risks', function (Blueprint $table) {
-            $table->id('rsk_id');
+            $table->id('id');
             $table->string('rsk_title', 150);
             $table->text('rsk_description');
             $table->text('thr_comment');
@@ -29,10 +29,10 @@ return new class extends Migration
         });
 
         Schema::table('risks', function($table) {
-            $table->foreign('rsk_approved_by')->references('u_id')->on('users');
-            $table->foreign('rsk_created_by')->references('u_id')->on('users');
-            $table->foreign('rsk_per_id')->references('rsk_per_id')->on('risks_periods');
-            $table->foreign('rsk_thr_lvl_id')->references('rsk_thr_lvl_id')->on('risks_level_of_threats');
+            $table->foreign('rsk_approved_by')->references('id')->on('users');
+            $table->foreign('rsk_created_by')->references('id')->on('users');
+            $table->foreign('rsk_per_id')->references('id')->on('risks_periods');
+            $table->foreign('rsk_thr_lvl_id')->references('id')->on('risks_level_of_threats');
         });
     }
 

@@ -20,8 +20,8 @@ return new class extends Migration
         });
 
         Schema::table('risks_responsibles', function($table) {
-            $table->foreign('rsk_id')->references('rsk_id')->on('risks');
-            $table->foreign('u_id')->references('u_id')->on('users');
+            $table->foreign('rsk_id')->references('id')->on('risks');
+            $table->foreign('u_id')->references('id')->on('users');
         });
     }
 

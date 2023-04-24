@@ -24,7 +24,7 @@ class PeriodsProbabilityColsSeeder extends Seeder
 
             foreach($cols as $col) {
                 DB::table('periods_probability_cols')->insert([
-                    'per_prob_col_id' => $id,
+                    'id' => $id,
                     'per_prob_col_title' => $col,
                     'per_prob_col_num' => $colNum,
                     'per_prob_row_id' => $rowId

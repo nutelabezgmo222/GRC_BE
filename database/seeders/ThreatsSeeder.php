@@ -20,7 +20,7 @@ class ThreatsSeeder extends Seeder
 
         foreach($threats as $threat) {
             DB::table('threats')->insert([
-                'thr_id' => $id,
+                'id' => $id,
                 'thr_title' => $threat
             ]);
 

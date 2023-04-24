@@ -21,7 +21,7 @@ class VulnerabilitiesSeeder extends Seeder
 
         foreach($vulnerabilities as $vulnerability) {
             DB::table('vulnerabilities')->insert([
-                'vul_id' => $id,
+                'id' => $id,
                 'vul_title' => $vulnerability
             ]);
 

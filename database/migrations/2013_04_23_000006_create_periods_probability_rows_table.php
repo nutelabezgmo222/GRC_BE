@@ -14,13 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('periods_probability_rows', function (Blueprint $table) {
-            $table->id('per_prob_row_id');
+            $table->id('id');
             $table->string('per_prob_row_title', 100);
             $table->tinyInteger('rsk_per_id')->unsigned();
         });
 
         Schema::table('periods_probability_rows', function($table) {
-            $table->foreign('rsk_per_id')->references('rsk_per_id')->on('risks_periods');
+            $table->foreign('rsk_per_id')->references('id')->on('risks_periods');
         });
     }
 

@@ -19,14 +19,15 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'surname',
-        'email',
-        'phone_number',
-        'password',
-        'registration_date',
+        'u_name',
+        'u_surname',
+        'u_email',
+        'u_password',
+        'u_registration_date',
         'last_log_time',
         'is_admin',
+        'r_access_level',
+        'cntrl_access_level',
         'remember_token'
     ];
 
@@ -36,17 +37,10 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
+        'u_password',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-
-    public $timestamps = false;
+    public function approvedRisks() {
+        return $this->hasMany(Risk::class, 'rsk_approved_by');
+    }
 }

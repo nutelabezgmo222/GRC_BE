@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('vulnerabilities', function (Blueprint $table) {
-            $table->id('vul_id');
+            $table->id('id');
             $table->string('vul_title', 200);
         });
     }

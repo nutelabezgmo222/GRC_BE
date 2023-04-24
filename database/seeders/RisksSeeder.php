@@ -20,7 +20,7 @@ class RisksSeeder extends Seeder
 
         foreach($titles as $title) {
             DB::table('risks')->insert([
-                'rsk_id' => $id,
+                'id' => $id,
                 'rsk_title' => $title,
                 'rsk_description' => 'Description text',
                 'thr_comment' => 'Threat comment',

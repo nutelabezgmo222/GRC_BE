@@ -1,5 +1,5 @@
 <?php
-use App\Http\Service\ToyService;
+use App\Http\Service\RiskService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
-Route::get('/toys', [ToyService::class, '_GET']);
+Route::get('/risks', [RiskService::class, '_GET']);
 
 
 // $services = DB::connection('registry')->table('services')->get();

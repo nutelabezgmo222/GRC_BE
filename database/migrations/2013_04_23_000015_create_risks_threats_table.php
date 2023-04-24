@@ -21,8 +21,8 @@ return new class extends Migration
         });
 
         Schema::table('risks_threats', function($table) {
-            $table->foreign('rsk_id')->references('rsk_id')->on('risks');
-            $table->foreign('thr_id')->references('thr_id')->on('threats');
+            $table->foreign('rsk_id')->references('id')->on('risks');
+            $table->foreign('thr_id')->references('id')->on('threats');
         });
     }
 

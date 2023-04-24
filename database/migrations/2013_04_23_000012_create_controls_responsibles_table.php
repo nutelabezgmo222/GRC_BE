@@ -20,8 +20,8 @@ return new class extends Migration
         });
 
         Schema::table('controls_responsibles', function($table) {
-            $table->foreign('cntrl_id')->references('cntrl_id')->on('controls');
-            $table->foreign('u_id')->references('u_id')->on('users');
+            $table->foreign('cntrl_id')->references('id')->on('controls');
+            $table->foreign('u_id')->references('id')->on('users');
         });
     }
 

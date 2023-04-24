@@ -20,7 +20,7 @@ class ControlsSeeder extends Seeder
 
         foreach($titles as $title) {
             DB::table('controls')->insert([
-                'cntrl_id' => $id,
+                'id' => $id,
                 'cntrl_title' => $title,
                 'cntrl_deadline' => '2024-04-24 12:00:00',
                 'cntrl_description' => 'Description text',

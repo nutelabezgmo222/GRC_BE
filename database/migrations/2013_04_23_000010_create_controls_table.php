@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('controls', function (Blueprint $table) {
-            $table->id('cntrl_id');
+            $table->id('id');
             $table->string('cntrl_title', 150);
             $table->dateTime('cntrl_deadline');
             $table->text('cntrl_description');
@@ -24,7 +24,7 @@ return new class extends Migration
         });
 
         Schema::table('controls', function($table) {
-            $table->foreign('cntrl_created_by')->references('u_id')->on('users');
+            $table->foreign('cntrl_created_by')->references('id')->on('users');
         });
     }
 
