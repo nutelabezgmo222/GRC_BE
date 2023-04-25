@@ -21,17 +21,17 @@ class RisksSeeder extends Seeder
         foreach($titles as $title) {
             DB::table('risks')->insert([
                 'id' => $id,
-                'rsk_title' => $title,
-                'rsk_description' => 'Description text',
+                'title' => $title,
+                'description' => 'Description text',
                 'thr_comment' => 'Threat comment',
-                'rsk_thr_lvl_comment' => 'Threat level comment',
+                'thr_lvl_comment' => 'Threat level comment',
                 'vul_comment' => 'Vulnerability comment',
-                'rsk_approve_date' => null,
-                'rsk_approved_by' => 1,
-                'rsk_creation_date' => date("Y-m-d H:i:s"),
-                'rsk_created_by' => 1,
+                'approve_date' => null,
+                'approved_by' => 1,
+                'creation_date' => date("Y-m-d H:i:s"),
+                'created_by' => 1,
                 'rsk_per_id' => 1,
-                'rsk_thr_lvl_id' => 1
+                'thr_lvl_id' => 1
             ]);
 
             $id = $id + 1;

@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('risks_periods', function (Blueprint $table) {
             $table->tinyIncrements('id');
-            $table->string('rsk_per_title', 150);
-            $table->string('rsk_per_probability_title', 150);
-            $table->string('rsk_per_consequence_title', 150);
+            $table->string('title', 150);
+            $table->string('probability_title', 150);
+            $table->string('consequence_title', 150);
         });
     }
 

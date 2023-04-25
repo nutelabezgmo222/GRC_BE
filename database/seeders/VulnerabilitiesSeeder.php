@@ -22,7 +22,7 @@ class VulnerabilitiesSeeder extends Seeder
         foreach($vulnerabilities as $vulnerability) {
             DB::table('vulnerabilities')->insert([
                 'id' => $id,
-                'vul_title' => $vulnerability
+                'title' => $vulnerability
             ]);
 
             $id = $id + 1;

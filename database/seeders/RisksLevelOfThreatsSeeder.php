@@ -22,7 +22,7 @@ class RisksLevelOfThreatsSeeder extends Seeder
             DB::table('risks_level_of_threats')->insert([
                 'id' => $id,
                 'rsk_per_id' => 1,
-                'rsk_thr_lvl_option' => $row,
+                'label' => $row,
             ]);
 
             $id = $id + 1;

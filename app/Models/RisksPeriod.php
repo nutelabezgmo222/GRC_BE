@@ -16,9 +16,9 @@ class RisksPeriod extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'rsk_per_title',
-        'rsk_per_probability_title',
-        'rsk_per_consequence_title',
+        'title',
+        'probability_title',
+        'consequence_title',
     ];
 
     public function threatOptions() {

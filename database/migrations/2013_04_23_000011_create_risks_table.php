@@ -15,24 +15,24 @@ return new class extends Migration
     {
         Schema::create('risks', function (Blueprint $table) {
             $table->id('id');
-            $table->string('rsk_title', 150);
-            $table->text('rsk_description');
+            $table->string('title', 150);
+            $table->text('description');
             $table->text('thr_comment');
-            $table->text('rsk_thr_lvl_comment');
+            $table->text('thr_lvl_comment');
             $table->text('vul_comment');
-            $table->dateTime('rsk_approve_date')->nullable();
-            $table->dateTime('rsk_creation_date');
-            $table->BigInteger('rsk_approved_by')->unsigned()->nullable();
-            $table->BigInteger('rsk_thr_lvl_id')->unsigned()->nullable();
-            $table->BigInteger('rsk_created_by')->unsigned();
+            $table->dateTime('approve_date')->nullable();
+            $table->dateTime('creation_date');
+            $table->BigInteger('approved_by')->unsigned()->nullable();
+            $table->BigInteger('thr_lvl_id')->unsigned()->nullable();
+            $table->BigInteger('created_by')->unsigned();
             $table->tinyInteger('rsk_per_id')->unsigned();
         });
 
         Schema::table('risks', function($table) {
-            $table->foreign('rsk_approved_by')->references('id')->on('users');
-            $table->foreign('rsk_created_by')->references('id')->on('users');
+            $table->foreign('approved_by')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
             $table->foreign('rsk_per_id')->references('id')->on('risks_periods');
-            $table->foreign('rsk_thr_lvl_id')->references('id')->on('risks_level_of_threats');
+            $table->foreign('thr_lvl_id')->references('id')->on('risks_level_of_threats');
         });
     }
 

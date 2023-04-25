@@ -21,7 +21,7 @@ class PeriodsConsequenceRowsSeeder extends Seeder
         foreach($rows as $row) {
             DB::table('periods_consequence_rows')->insert([
                 'id' => $id,
-                'per_cons_row_title' => $row,
+                'label' => $row,
                 'rsk_per_id' => 1,
             ]);
 

@@ -15,17 +15,17 @@ class Risk extends Model
     use HasFactory;
 
     protected $fillable = [
-        'rsk_title',
-        'rsk_description',
+        'title',
+        'description',
         'thr_comment',
-        'rsk_thr_lvl_comment',
+        'thr_lvl_comment',
         'vul_comment',
-        'rsk_approve_date',
-        'rsk_approved_by',
-        'rsk_creation_date',
-        'rsk_created_by',
+        'approve_date',
+        'approved_by',
+        'creation_date',
+        'created_by',
         'rsk_per_id',
-        'rsk_thr_lvl_id',
+        'thr_lvl_id',
     ];
 
     /**
@@ -35,8 +35,8 @@ class Risk extends Model
      */
     protected $hidden = [
         'rsk_per_id',
-        'rsk_thr_lvl_id',
-        'rsk_created_by'
+        'thr_lvl_id',
+        'created_by'
     ];
 
     public $timestamps = false;
@@ -58,14 +58,14 @@ class Risk extends Model
     }
 
     public function riskThreatLevel() {
-        return $this->belongsTo(RisksLevelOfThreats::class, 'rsk_thr_lvl_id');
+        return $this->belongsTo(RisksLevelOfThreats::class, 'thr_lvl_id');
     }
 
     public function createdBy() {
-        return $this->belongsTo(User::class, 'rsk_created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function approvedBy() {
-        return $this->belongsTo(User::class, 'rsk_approved_by');
+        return $this->belongsTo(User::class, 'approved_by');
     }
 }

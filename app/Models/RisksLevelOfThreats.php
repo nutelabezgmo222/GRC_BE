@@ -16,6 +16,6 @@ class RisksLevelOfThreats extends Model
      */
     protected $fillable = [
         'rsk_per_id',
-        'rsk_thr_lvl_option'
+        'label'
     ];
 }

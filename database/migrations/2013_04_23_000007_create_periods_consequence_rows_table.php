@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('periods_consequence_rows', function (Blueprint $table) {
             $table->id('id');
-            $table->string('per_cons_row_title', 100);
+            $table->string('label', 100);
             $table->tinyInteger('rsk_per_id')->unsigned();
         });
 

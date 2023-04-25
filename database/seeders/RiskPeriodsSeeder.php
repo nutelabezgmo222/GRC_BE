@@ -17,9 +17,9 @@ class RiskPeriodsSeeder extends Seeder
     {
         DB::table('risks_periods')->insert([
             'id' => 1,
-            'rsk_per_title' => 'Quartal 1',
-            'rsk_per_probability_title' => 'Probability',
-            'rsk_per_consequence_title' => 'Consequence',
+            'title' => 'Quartal 1',
+            'probability_title' => 'Probability',
+            'consequence_title' => 'Consequence',
         ]);
     }
 }

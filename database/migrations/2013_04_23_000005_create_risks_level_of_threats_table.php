@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('risks_level_of_threats', function (Blueprint $table) {
             $table->id('id');
             $table->tinyInteger('rsk_per_id')->unsigned();
-            $table->string('rsk_thr_lvl_option', 100);
+            $table->string('label', 100);
         });
 
         Schema::table('risks_level_of_threats', function($table) {

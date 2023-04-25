@@ -15,16 +15,16 @@ return new class extends Migration
     {
         Schema::create('controls', function (Blueprint $table) {
             $table->id('id');
-            $table->string('cntrl_title', 150);
-            $table->dateTime('cntrl_deadline');
-            $table->text('cntrl_description');
-            $table->text('cntrl_expected_evidence');
-            $table->BigInteger('cntrl_created_by')->unsigned();
-            $table->dateTime('cntrl_creation_date');
+            $table->string('title', 150);
+            $table->dateTime('deadline');
+            $table->text('description');
+            $table->text('expected_evidence');
+            $table->BigInteger('created_by')->unsigned();
+            $table->dateTime('creation_date');
         });
 
         Schema::table('controls', function($table) {
-            $table->foreign('cntrl_created_by')->references('id')->on('users');
+            $table->foreign('created_by')->references('id')->on('users');
         });
     }
 

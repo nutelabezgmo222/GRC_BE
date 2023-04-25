@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('threats', function (Blueprint $table) {
             $table->id('id');
-            $table->string('thr_title', 150);
+            $table->string('title', 150);
         });
     }
 

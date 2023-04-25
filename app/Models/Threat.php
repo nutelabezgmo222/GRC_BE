@@ -15,10 +15,10 @@ class Threat extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'thr_title',
+        'title',
     ];
 
     public function risks() {
-        return $this->hasMany(Risk::class, 'rsk_thr_lvl_id');
+        return $this->hasMany(Risk::class, 'thr_lvl_id');
     }
 }
