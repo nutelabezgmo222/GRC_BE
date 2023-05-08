@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id('id');
             $table->string('title', 150);
             $table->text('description');
+            $table->text('status');
             $table->text('thr_comment');
             $table->text('thr_lvl_comment');
             $table->text('vul_comment');

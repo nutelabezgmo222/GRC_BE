@@ -3,6 +3,8 @@
 namespace App\Http\Service;
 
 use App\Models\Risk;
+use App\Models\RisksResponsible;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -25,84 +27,73 @@ class RiskService extends Service
         ];
     }
 
-    public function _GET_toy_by_id($id) {
-        $toy = Toy::with(['genderCategory', 'brand.country', 'ageLimit', 'subCategories'])->where('id', '=', $id)->first();
-
-        return [ 'data' => $toy ];
-    }
-
-    public function _GET_recommendations(Request $request) {
-        $listOfIds = explode(',', $request['id']);
-        $orders = Order::with('toyOrders')
-            ->whereHas('toyOrders', function($q) use ($listOfIds) {
-                $q->whereIn('Toy_id', $listOfIds);
-            })->get();
-        $toyIdsInOrders = [];
-
-        foreach ($orders as $order) {
-            foreach($order->toyOrders as $toy) {
-                if(array_key_exists($toy->id, $toyIdsInOrders)) {
-                    $toyIdsInOrders[$toy->id] = $toyIdsInOrders[$toy->id] + 1;
-                } else {
-                    $toyIdsInOrders[$toy->id] = 1;
-                }
-            }
-        }
-
-        return [
-            'list' => $toyIdsInOrders
-        ];
-    }
-
-
     public function _POST(Request $request) {
-        $errors = $this->validateToy($request);
-
+        $token = $request->header('Authorization');
+        $errors = $this->validateRisk($request);
+        if(!$token) {
+            return response('Token is required', 422);
+        }
         if($errors) {
           return response($errors, 422);
         }
-        $description = '';
-        $image = '';
+        $user = User::where('remember_token', $token)->first();
 
-        if($request['description']) {
-            $description = $request['description'];
-        }
-        if($request['image']) {
-            $image = $request['image'];
-        }
-
-        $newToy = Toy::create([
+        $newRisk = Risk::create([
             'title' => $request['title'],
-            'description' => $description,
-            'price' => $request['price'],
-            'rating' => 0,
-            'number' => $request['number'],
-            'image' => $image,
-            'Brand_id' => $request['brand_id'],
-            'GenderCategory_id' => $request['gender_id'],
-            'AgeLimit_id' => $request['age_limit_id']
+            'description' => '',
+            'status' => '',
+            'thr_comment' => '',
+            'thr_lvl_comment' => '',
+            'vul_comment' => '',
+            'approve_date' => null,
+            'approved_by' => null,
+            'creation_date' => date("Y-m-d H:i:s"),
+            'created_by' => $user->id,
+            'rsk_per_id' => 1,
+            'thr_lvl_id' => 1,
         ]);
 
-        return $this->findWith($newToy->id);
+        foreach($request['responsibles'] as $responsibleId) {
+            RisksResponsible::create([
+                'rsk_id' => $newRisk->id,
+                'u_id' => $responsibleId
+            ]);
+        }
+
+        return $this->findWith($newRisk->id);
+    }
+
+    public function _GET_risk_by_id($id) {
+        $risk = Risk::with([
+            'responsible',
+            'threats',
+            'vulnerabilities',
+            'risksPeriod',
+            'riskThreatLevel',
+            'createdBy',
+            'approvedBy'
+        ])->where('id', '=', $id)->first();
+
+        return [ 'data' => $risk ];
     }
 
     public function _PATCH($id, Request $request) {
-        $errors = $this->validateToy($request);
+        $errors = $this->validateRisk($request);
 
         if($errors) {
             return response($errors, 422);
         }
 
-        $toyToPatch = Toy::find(intval($id));
+        $riskToPatch = Risk::find(intval($id));
 
-        if(!$toyToPatch) {
-            return response('Item not found', 422);
+        if(!$riskToPatch) {
+            return response('Risk not found', 422);
         }
         $requestData = $request->all();
 
-        $toyToPatch->fill($requestData)->save();
+        $riskToPatch->fill($requestData)->save();
 
-        return $toyToPatch;
+        return $riskToPatch;
     }
 
     public function _DELETE($id) {
@@ -115,15 +106,23 @@ class RiskService extends Service
         return $toyToDelete->delete();
     }
 
-    public function validateToy(Request $request) {
+    public function validateRisk(Request $request) {
         $validationRules = [
-            'title' => ['required', 'unique:toys', 'max:255'],
+            'title' => ['max:200'],
         ];
         
         return $this->validateRequest($request, $validationRules);
     }
 
     public function findWith($id) {
-        return Toy::with(['genderCategory', 'brand.country', 'ageLimit', 'subCategories'])->find($id);
+        return Risk::with([
+            'responsible',
+            'threats',
+            'vulnerabilities',
+            'risksPeriod',
+            'riskThreatLevel',
+            'createdBy',
+            'approvedBy'
+        ])->find($id);
     }
 }

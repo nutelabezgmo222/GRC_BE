@@ -1,5 +1,7 @@
 <?php
 use App\Http\Service\RiskService;
+use App\Http\Service\UsersService;
+use App\Http\Service\LoginService;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,30 +19,14 @@ use Illuminate\Support\Facades\Route;
 //     return $request->user();
 // });
 
+Route::get('/users', [UsersService::class, '_GET']);
+
 Route::get('/risks', [RiskService::class, '_GET']);
+Route::post('/risk', [RiskService::class, '_POST']);
+Route::get('/risk/{id}', [RiskService::class, '_GET_risk_by_id']);
+Route::patch('/risk/{id}', [RiskService::class, '_PATCH']);
 
-
-// $services = DB::connection('registry')->table('services')->get();
-
-// foreach($services as $service) {
-//     $class = 'App\Http\Service\\'.$service->service_name;
-//     $classInstance = new $class();
-//     $middleware = 'registry:'.$service->id;
-
-//     switch ($service->service_http_method) {
-//         case 'GET':
-//             Route::get($service->service_url, [get_class($classInstance), $service->service_method])->middleware($middleware);
-//             break;
-//         case 'POST':
-//             Route::post($service->service_url, [get_class($classInstance), $service->service_method])->middleware($middleware);
-//             break;
-//         case 'PATCH':
-//             Route::patch($service->service_url, [get_class($classInstance), $service->service_method])->middleware($middleware);
-//             break;
-//         case 'DELETE':
-//             Route::delete($service->service_url, [get_class($classInstance), $service->service_method])->middleware($middleware);
-//             break;
-//         default:
-//             break;
-//     }
-// }
+Route::post('/login', [LoginService::class, '_POST_login']);
+Route::post('/tokenLogin', [LoginService::class, '_POST_tokenLogin']);
+Route::post('/registration', [LoginService::class, '_POST_registration']);
+Route::get('/logout', [LoginService::class, '_GET_logout']);

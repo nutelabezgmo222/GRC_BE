@@ -17,6 +17,8 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $names = ['Michael', 'Nick', 'Brain', 'Lusiya', 'Masha', 'Margarita', 'Nicolai', 'Jojo', 'Kille'];
+        $surnames = ['Elsher', 'Solace', 'Solace', 'Thatcher', 'Raven', 'Bardot', 'Hansley', 'Cromwell', 'Ashley'];
         $usersToCreate = 20;
         $id = 1;
 
@@ -38,15 +40,15 @@ class UserSeeder extends Seeder
         for($i = 0; $i < $usersToCreate; $i++) {
             DB::table('users')->insert([
                 'id' => $id,
-                'u_name' => Str::random(10),
-                'u_surname' => Str::random(10),
+                'u_name' => $names[rand(0, 8)],
+                'u_surname' => $surnames[rand(0, 8)],
                 'u_email' => Str::random(10).'@gmail.com',
                 'u_password' => Hash::make('password'),
                 'u_registration_date' => date("Y-m-d H:i:s"),
                 'last_log_time' => date("Y-m-d H:i:s"),
                 'is_admin' => 0,
-                'r_access_level' => 0,
-                'cntrl_access_level' => 0,
+                'r_access_level' => $id % 4,
+                'cntrl_access_level' => $id % 4,
             ]);
             
             $id = $id + 1;

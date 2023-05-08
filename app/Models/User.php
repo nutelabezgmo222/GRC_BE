@@ -40,7 +40,15 @@ class User extends Authenticatable
         'u_password',
     ];
 
+    protected $appends = ['full_name'];
+
+    public $timestamps = false;
+
     public function approvedRisks() {
         return $this->hasMany(Risk::class, 'approved_by');
+    }
+
+    public function getFullNameAttribute() {
+        return $this->u_name . ' ' . $this->u_surname;
     }
 }

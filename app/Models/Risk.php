@@ -17,6 +17,7 @@ class Risk extends Model
     protected $fillable = [
         'title',
         'description',
+        'status',
         'thr_comment',
         'thr_lvl_comment',
         'vul_comment',
@@ -27,6 +28,8 @@ class Risk extends Model
         'rsk_per_id',
         'thr_lvl_id',
     ];
+
+    protected $appends = ['objType'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -67,5 +70,8 @@ class Risk extends Model
 
     public function approvedBy() {
         return $this->belongsTo(User::class, 'approved_by');
+    }
+    public function getObjTypeAttribute() {
+        return 'risk';
     }
 }

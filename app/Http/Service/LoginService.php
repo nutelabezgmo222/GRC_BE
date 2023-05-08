@@ -16,7 +16,7 @@ class LoginService extends Service
         if($errors) {
           return response($errors, 422);
         }
-        $user = User::where('email', $request['email'])->where('password', $request['password'])->first();
+        $user = User::where('u_email', $request['email'])->where('u_password', $request['password'])->first();
         
         if(!$user) {
             return response('User not found', 404);
@@ -100,7 +100,7 @@ class LoginService extends Service
 
     public function validateLogin(Request $request) {
         $validationRules = [
-            'email' => ['required', 'exists:users'],
+            'email' => ['required', 'exists:users,u_email'],
             'password' => ['required']
         ];
         
