@@ -29,7 +29,7 @@ class Risk extends Model
         'thr_lvl_id',
     ];
 
-    protected $appends = ['objType'];
+    protected $appends = ['objType', 'threat_ids', 'vulnerability_ids'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -38,7 +38,8 @@ class Risk extends Model
      */
     protected $hidden = [
         'rsk_per_id',
-        'thr_lvl_id',
+        'threats',
+        'vulnerabilities',
         'created_by'
     ];
 
@@ -52,8 +53,16 @@ class Risk extends Model
         return $this->belongsToMany(Threat::class, 'risks_threats', 'rsk_id', 'thr_id');
     }
 
+    public function getThreatIdsAttribute() {
+        return $this->threats->pluck('id');
+    }
+
     public function vulnerabilities() {
         return $this->belongsToMany(Vulnerability::class, 'risks_vulnerabilities', 'rsk_id', 'vul_id');
+    }
+
+    public function getVulnerabilityIdsAttribute() {
+        return $this->vulnerabilities->pluck('id');
     }
 
     public function risksPeriod() {

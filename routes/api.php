@@ -1,5 +1,6 @@
 <?php
 use App\Http\Service\RiskService;
+use App\Http\Service\RiskPeriodService;
 use App\Http\Service\ControlService;
 use App\Http\Service\UsersService;
 use App\Http\Service\LoginService;
@@ -21,11 +22,19 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/users', [UsersService::class, '_GET']);
+Route::post('/user', [UsersService::class, '_POST']);
+Route::patch('/user/{id}', [UsersService::class, '_PATCH']);
 
 Route::get('/risks', [RiskService::class, '_GET']);
-Route::post('/risk', [RiskService::class, '_POST']);
+Route::get('/risk/attributes', [RiskService::class, '_GET_risk_attributes']);
 Route::get('/risk/{id}', [RiskService::class, '_GET_risk_by_id']);
+
+Route::post('/risk', [RiskService::class, '_POST']);
+Route::post('/risk/attributes', [RiskService::class, '_POST_risk_attributes']);
+Route::patch('/risk/attributes/{id}/{type}', [RiskService::class, '_PATCH_risk_attributes']);
+Route::delete('/risk/attributes/{id}/{type}', [RiskService::class, '_DELETE_risk_attributes']);
 Route::patch('/risk/{id}', [RiskService::class, '_PATCH']);
+
 
 Route::get('/controls', [ControlService::class, '_GET']);
 Route::post('/control', [ControlService::class, '_POST']);

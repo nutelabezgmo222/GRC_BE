@@ -18,6 +18,8 @@ class Threat extends Model
         'title',
     ];
 
+    public $timestamps = false;
+
     public function risks() {
         return $this->hasMany(Risk::class, 'thr_lvl_id');
     }

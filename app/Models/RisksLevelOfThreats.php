@@ -15,7 +15,8 @@ class RisksLevelOfThreats extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'rsk_per_id',
-        'label'
+        'title'
     ];
+
+    public $timestamps = false;
 }

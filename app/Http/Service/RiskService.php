@@ -4,7 +4,13 @@ namespace App\Http\Service;
 
 use App\Models\Risk;
 use App\Models\RisksResponsible;
+use App\Models\RisksThreat;
+use App\Models\RisksVulnerability;
 use App\Models\User;
+use App\Models\Threat;
+use App\Models\Vulnerability;
+use App\Models\RisksLevelOfThreats;
+
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -14,8 +20,6 @@ class RiskService extends Service
     public function _GET(Request $request) {
         $risks = Risk::with([
             'responsible',
-            'threats',
-            'vulnerabilities',
             'risksPeriod',
             'riskThreatLevel',
             'createdBy',
@@ -24,6 +28,18 @@ class RiskService extends Service
 
         return [
             'list' => $risks->get()
+        ];
+    }
+
+    public function _GET_risk_attributes(Request $request) {
+        $threats = Threat::all();
+        $vulnerabilities = Vulnerability::all();
+        $levelOfThreats = RisksLevelOfThreats::all();
+
+        return [
+            'threats' => $threats,
+            'vulnerabilities' => $vulnerabilities,
+            'levelOfThreats' => $levelOfThreats,
         ];
     }
 
@@ -37,6 +53,9 @@ class RiskService extends Service
           return response($errors, 422);
         }
         $user = User::where('remember_token', $token)->first();
+        if(!$user) {
+            return response('Authorization failed', 422);
+        }
 
         $newRisk = Risk::create([
             'title' => $request['title'],
@@ -63,11 +82,95 @@ class RiskService extends Service
         return $this->findWith($newRisk->id);
     }
 
+    public function _POST_risk_attributes(Request $request) {
+        $token = $request->header('Authorization');
+        if(!$token) {
+            return response('Token is required', 422);
+        }
+        $user = User::where('remember_token', $token)->first();
+        if(!$user) {
+            return response('Authorization failed', 422);
+        }
+
+        $newItem = null;
+        switch($request['type']) {
+            case 'threats': 
+                $newItem = Threat::create(['title' => $request['title']]);
+                break;
+            case 'vulnerabilities': 
+                $newItem = Vulnerability::create(['title' => $request['title']]);
+                break;
+            case 'level_of_threats':
+                $newItem = RisksLevelOfThreats::create(['title' => $request['title']]);
+                break;
+        }
+        $newItem->type = $request['type'];
+
+        return $newItem;
+    }
+
+    public function _PATCH_risk_attributes($id, $type, Request $request) {
+        $token = $request->header('Authorization');
+        if(!$token) {
+            return response('Token is required', 422);
+        }
+        $user = User::where('remember_token', $token)->first();
+        if(!$user) {
+            return response('Authorization failed', 422);
+        }
+
+        $itemToPatch = null;
+        switch($type) {
+            case 'threats': 
+                $itemToPatch = Threat::find(intval($id));
+                break;
+            case 'vulnerabilities': 
+                $itemToPatch = Vulnerability::find(intval($id));
+                break;
+            case 'level_of_threats':
+                $itemToPatch = RisksLevelOfThreats::find(intval($id));
+                break;
+        }
+        if(!$itemToPatch) {
+            return response('Item wasn`t found', 422);
+        }
+
+        $itemToPatch->fill($request->all())->save();
+        $itemToPatch->type = $type;
+        return $itemToPatch;
+    }
+
+    public function _DELETE_risk_attributes($id, $type, Request $request) {
+        $token = $request->header('Authorization');
+        if(!$token) {
+            return response('Token is required', 422);
+        }
+        $user = User::where('remember_token', $token)->first();
+        if(!$user) {
+            return response('Authorization failed', 422);
+        }
+
+        $itemToDelete = null;
+        switch($type) {
+            case 'threats': 
+                $itemToDelete = Threat::find(intval($id));
+                break;
+            case 'vulnerabilities': 
+                $itemToDelete = Vulnerability::find(intval($id));
+                break;
+            case 'level_of_threats':
+                $itemToDelete = RisksLevelOfThreats::find(intval($id));
+                break;
+        }
+        if(!$itemToDelete) {
+            return response('Item wasn`t found', 422);
+        }
+        return $itemToDelete->delete();
+    }
+
     public function _GET_risk_by_id($id) {
         $risk = Risk::with([
             'responsible',
-            'threats',
-            'vulnerabilities',
             'risksPeriod',
             'riskThreatLevel',
             'createdBy',
@@ -87,9 +190,33 @@ class RiskService extends Service
         $riskToPatch = Risk::find(intval($id));
 
         if(!$riskToPatch) {
-            return response('Risk not found', 422);
+            return response('Risk wasn`t found', 422);
         }
         $requestData = $request->all();
+
+        if ($request->exists('threat_ids')) {
+            RisksThreat::where('rsk_id', $id)
+                ->delete();
+
+            foreach($request['threat_ids'] as $threatId) {
+                RisksThreat::create([
+                    'rsk_id' => $id,
+                    'thr_id' => $threatId
+                ]);
+            }
+        }
+
+        if ($request->exists('vulnerability_ids')) {
+            RisksVulnerability::where('rsk_id', $id)
+                ->delete();
+
+            foreach($request['vulnerability_ids'] as $vulnerabilityId) {
+                RisksVulnerability::create([
+                    'rsk_id' => $id,
+                    'vul_id' => $vulnerabilityId
+                ]);
+            }
+        }
 
         $riskToPatch->fill($requestData)->save();
 
@@ -117,8 +244,6 @@ class RiskService extends Service
     public function findWith($id) {
         return Risk::with([
             'responsible',
-            'threats',
-            'vulnerabilities',
             'risksPeriod',
             'riskThreatLevel',
             'createdBy',

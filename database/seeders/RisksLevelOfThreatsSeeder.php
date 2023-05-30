@@ -21,8 +21,7 @@ class RisksLevelOfThreatsSeeder extends Seeder
         foreach($rows as $row) {
             DB::table('risks_level_of_threats')->insert([
                 'id' => $id,
-                'rsk_per_id' => 1,
-                'label' => $row,
+                'title' => $row,
             ]);
 
             $id = $id + 1;

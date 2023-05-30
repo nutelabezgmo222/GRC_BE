@@ -9,6 +9,9 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 
+use App\Models\Risk;
+
+
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -40,7 +43,7 @@ class User extends Authenticatable
         'u_password',
     ];
 
-    protected $appends = ['full_name'];
+    protected $appends = ['full_name', 'objType'];
 
     public $timestamps = false;
 
@@ -50,5 +53,9 @@ class User extends Authenticatable
 
     public function getFullNameAttribute() {
         return $this->u_name . ' ' . $this->u_surname;
+    }
+
+    public function getObjTypeAttribute() {
+        return 'user';
     }
 }
